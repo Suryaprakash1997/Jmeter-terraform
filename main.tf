@@ -81,6 +81,7 @@ resource "aws_instance" "jmeter_main" {
               echo 'client.rmi.localport=50000' | sudo tee -a /apache-jmeter-5.6.3/bin/jmeter.properties
               echo 'server.rmi.localport=4000' | sudo tee -a /apache-jmeter-5.6.3/bin/jmeter.properties
               echo 'server.rmi.ssl.disable=true' | sudo tee -a /apache-jmeter-5.6.3/bin/jmeter.properties
+              sudo sed -i '268s/.*/remote_hosts=${aws_instance.jmeter_worker_1[*].private_ip},${aws_instance.jmeter_worker_2[*].private_ip}/' /apache-jmeter-5.6.3/bin/jmeter.properties
               EOF
 
   tags = {
