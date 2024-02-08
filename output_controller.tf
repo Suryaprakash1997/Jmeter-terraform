@@ -17,10 +17,6 @@ output "controller_arn" {
   value       = aws_instance.jmeter_main[0].arn
 }
 
-output "controller_jmeter_version" {
-  description = "JMeter version installed on the controller instance"
-  value       = var.jmeter_version
-}
 
 output "controller_instance_type" {
   description = "The type of instance running the controller"

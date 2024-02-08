@@ -17,7 +17,7 @@ variable "aws_ami" {
 variable "aws_controller_instance_type" {
   description = "The type of controller instance to start"
   type        = string
-  default     = "t3.small"
+  default     = "t3.medium"
 }
 variable "aws_worker_instance_type" {
   description = "The type of worker instance(s) to start"
@@ -36,38 +36,9 @@ variable "jmeter_home" {
   default     = "/home/ubuntu"
 }
 
-variable "jmeter_version" {
-  description = "The version of JMeter to install"
-  default     = "5.4.3"
-  type        = string
-}
-
-variable "jmeter_plugins" {
-  type        = list(string)
-  description = "List of JMeter plugins to install"
-  default     = ["HTTP/HTTPS Test Script Recorder"]
-  
-}
-
-variable "jmeter_cmdrunner_version" {
-  description = "The version of JMeter CommandRunner to install"
-  default     = "2.2"
-  type        = string
-}
-variable "jmeter_plugins_manager_version" {
-  description = "The version of JMeter Plugins Manager to install"
-  type        = string
-  default     = "1.7"
-}
-variable "jmeter_mode" {
-  description = "The mode of JMeter to run: leader or follower"
-  default     = "follower"
-  type        = string
-
-}
 variable "jmeter_workers_count" {
   description = "The number of worker nodes to run"
-  default     = 2
+  default     = 1
   type        = number
 
   validation {
