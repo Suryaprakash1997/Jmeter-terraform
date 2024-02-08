@@ -5,6 +5,7 @@ resource "aws_instance" "jmeter_worker" {
   key_name               = var.aws_key_name
   subnet_id              = element(module.vpc.public_subnets, count.index)
   vpc_security_group_ids = [aws_security_group.jmeter_security_group.id]
+  associate_public_ip_address = true
   user_data = templatefile("${path.module}/install-jmeter.sh", {
     JMETER_HOME                         = var.jmeter_home,
     JMETER_VERSION                      = var.jmeter_version,

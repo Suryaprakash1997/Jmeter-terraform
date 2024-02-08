@@ -3,12 +3,12 @@ variable "aws_profile" {
 }
 
 variable "aws_region" {
-  default = "us-east-2"
+  default = "ap-south-1"
 }
 variable "aws_ami" {
   description = "ID of AMI to use for the instance"
   type        = string
-  default     = null
+  default     = "ami-0a7cf821b91bcccbc"
   validation {
     condition     = length(var.aws_ami) > 4 && substr(var.aws_ami, 0, 4) == "ami-"
     error_message = "The image_id value must be a valid AMI id, starting with \"ami-\"."
@@ -17,23 +17,23 @@ variable "aws_ami" {
 variable "aws_controller_instance_type" {
   description = "The type of controller instance to start"
   type        = string
-  default     = null
+  default     = "t3.small"
 }
 variable "aws_worker_instance_type" {
   description = "The type of worker instance(s) to start"
   type        = string
-  default     = null
+  default     = "t3.small"
 }
 variable "aws_key_name" {
   description = "Key name of the Key Pair to use for the instance; which can be managed using the `aws_key_pair` resource"
   type        = string
-  default     = null
+  default     = "Ubuntu"
 }
 
 variable "jmeter_home" {
   description = "The location of the home directory"
   type        = string
-  default     = "/home/ec2-user"
+  default     = "/home/ubuntu"
 }
 
 variable "jmeter_version" {
@@ -45,7 +45,7 @@ variable "jmeter_version" {
 variable "jmeter_plugins" {
   type        = list(string)
   description = "List of JMeter plugins to install"
-  default     = null
+  default     = ["HTTP/HTTPS Test Script Recorder"]
   
 }
 
@@ -67,7 +67,7 @@ variable "jmeter_mode" {
 }
 variable "jmeter_workers_count" {
   description = "The number of worker nodes to run"
-  default     = 1
+  default     = 2
   type        = number
 
   validation {
