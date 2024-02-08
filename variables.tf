@@ -55,4 +55,5 @@ variable "jmeter_main_count" {
     condition     = var.jmeter_main_count == 1
     error_message = "The leader/controller node must be 1."
   }
+
 } 
