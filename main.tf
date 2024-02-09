@@ -44,17 +44,7 @@ resource "aws_instance" "jmeter_worker_2" {
   user_data = <<-EOF
               #!/bin/bash
               sudo apt update
-              sudo apt install openjdk-user_data = <<-EOF
-              #!/bin/bash
-              sudo apt update
               sudo apt install openjdk-11-jdk -y
-              sudo wget https://dlcdn.apache.org//jmeter/binaries/apache-jmeter-5.6.3.tgz
-              sudo tar -xzf apache-jmeter-5.6.3.tgz
-              sudo rm apache-jmeter-5.6.3.tgz
-              echo 'client.rmi.localport=50000' | sudo tee -a /apache-jmeter-5.6.3/bin/jmeter.properties
-              echo 'server.rmi.localport=4000' | sudo tee -a /apache-jmeter-5.6.3/bin/jmeter.properties
-              echo 'server.rmi.ssl.disable=true' | sudo tee -a /apache-jmeter-5.6.3/bin/jmeter.properties
-              EOF11-jdk -y
               sudo wget https://dlcdn.apache.org//jmeter/binaries/apache-jmeter-5.6.3.tgz
               sudo tar -xzf apache-jmeter-5.6.3.tgz
               sudo rm apache-jmeter-5.6.3.tgz
