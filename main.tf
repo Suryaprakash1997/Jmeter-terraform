@@ -21,6 +21,7 @@ resource "aws_instance" "jmeter_worker_1" {
               echo 'client.rmi.localport=50000' | sudo tee -a /apache-jmeter-5.6.3/bin/jmeter.properties
               echo 'server.rmi.localport=4000' | sudo tee -a /apache-jmeter-5.6.3/bin/jmeter.properties
               echo 'server.rmi.ssl.disable=true' | sudo tee -a /apache-jmeter-5.6.3/bin/jmeter.properties
+              sudo ./apache-jmeter-5.6.3/bin/jmeter-server
               EOF
   
   tags = {
@@ -51,6 +52,7 @@ resource "aws_instance" "jmeter_worker_2" {
               echo 'client.rmi.localport=50000' | sudo tee -a /apache-jmeter-5.6.3/bin/jmeter.properties
               echo 'server.rmi.localport=4000' | sudo tee -a /apache-jmeter-5.6.3/bin/jmeter.properties
               echo 'server.rmi.ssl.disable=true' | sudo tee -a /apache-jmeter-5.6.3/bin/jmeter.properties
+              sudo ./apache-jmeter-5.6.3/bin/jmeter-server
               EOF
   
   tags = {
