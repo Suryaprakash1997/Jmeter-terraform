@@ -8,9 +8,8 @@ resource "aws_instance" "jmeter_worker_1" {
   ami                    = var.aws_ami
   instance_type          = var.aws_worker_instance_type
   key_name               = var.aws_key_name
-  subnet_id              = element(module.vpc.public_subnets, count.index)
-  vpc_security_group_ids = [aws_security_group.jmeter_security_group.id]
-  associate_public_ip_address = true
+  subnet_id              = var.aws_subnet_id
+  vpc_security_group_ids = [aws_security_group.cs_stage_shared_jmeter_sg.id]
   user_data = <<-EOF
               #!/bin/bash
               sudo apt update
@@ -25,7 +24,11 @@ resource "aws_instance" "jmeter_worker_1" {
               EOF
   
   tags = {
-    Name = "jmeter_worker_1"
+    Name        = "cs-stage-shared-jmeter-worker-1"
+    CreatedBy   = "Surya"
+    Environment = "staging"
+    RequestedBy = "Harshil"
+    Purpose     = "Jmeter loadtest"
   }
 }
 
@@ -39,9 +42,8 @@ resource "aws_instance" "jmeter_worker_2" {
   ami                    = var.aws_ami
   instance_type          = var.aws_worker_instance_type
   key_name               = var.aws_key_name
-  subnet_id              = element(module.vpc.public_subnets, count.index)
-  vpc_security_group_ids = [aws_security_group.jmeter_security_group.id]
-  associate_public_ip_address = true
+  subnet_id              = var.aws_subnet_id
+  vpc_security_group_ids = [aws_security_group.cs_stage_shared_jmeter_sg.id]
   user_data = <<-EOF
               #!/bin/bash
               sudo apt update
@@ -56,7 +58,11 @@ resource "aws_instance" "jmeter_worker_2" {
               EOF
   
   tags = {
-    Name = "jmeter_worker_2"
+    Name        = "cs-stage-shared-jmeter-worker-2"
+    CreatedBy   = "Surya"
+    Environment = "staging"
+    RequestedBy = "Harshil"
+    Purpose     = "Jmeter loadtest"
   }
 }
 
@@ -74,21 +80,24 @@ resource "aws_instance" "jmeter_main" {
   ami                    = var.aws_ami
   instance_type          = var.aws_controller_instance_type
   key_name               = var.aws_key_name
-  subnet_id              = element(module.vpc.public_subnets, count.index)
-  vpc_security_group_ids = [aws_security_group.jmeter_security_group.id]
-  associate_public_ip_address = true
+  subnet_id              = var.aws_subnet_id
+  vpc_security_group_ids = [aws_security_group.cs_stage_shared_jmeter_sg.id]
   
   user_data = templatefile("${path.module}/user_data.tpl", {
     all_worker_ips = local.all_worker_ips
   })
 
   tags = {
-    Name = "jmeter_controller"
+    Name        = "cs-stage-shared-jmeter-controller"
+    CreatedBy   = "Surya"
+    Environment = "staging"
+    RequestedBy = "Harshil"
+    Purpose     = "Jmeter loadtest"
   }
 
 }
 
-output "controller_public_ip" {
-  description = "The public IP address assigned to the controller instance, if applicable. NOTE: If you are using an aws_eip with your instance, you should refer to the EIP's address directly and not use `public_ip` as this field will change after the EIP is attached"
-  value       = aws_instance.jmeter_main[0].public_ip
+output "controller_private_ip" {
+  description = "The private IP address assigned to the controller instance"
+  value       = aws_instance.jmeter_main[*].private_ip
 }

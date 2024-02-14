@@ -1,14 +1,14 @@
 variable "aws_profile" {
-  default = "default"
+  default = "stage-admin"
 }
 
 variable "aws_region" {
-  default = "ap-south-1"
+  default = "us-east-1"
 }
 variable "aws_ami" {
   description = "ID of AMI to use for the instance"
   type        = string
-  default     = "ami-0a7cf821b91bcccbc"
+  default     = "ami-06aa3f7caf3a30282"
   validation {
     condition     = length(var.aws_ami) > 4 && substr(var.aws_ami, 0, 4) == "ami-"
     error_message = "The image_id value must be a valid AMI id, starting with \"ami-\"."
@@ -22,12 +22,12 @@ variable "aws_controller_instance_type" {
 variable "aws_worker_instance_type" {
   description = "The type of worker instance(s) to start"
   type        = string
-  default     = "t3.small"
+  default     = "t3.medium"
 }
 variable "aws_key_name" {
   description = "Key name of the Key Pair to use for the instance; which can be managed using the `aws_key_pair` resource"
   type        = string
-  default     = "Ubuntu"
+  default     = "cs-stage-shared-jmeter-vm-key"
 }
 
 variable "jmeter_home" {
@@ -57,3 +57,15 @@ variable "jmeter_main_count" {
   }
 
 } 
+
+variable "aws_vpc_id" {
+  description = "vpc ID for the Jmeter"
+  type = string
+  default = "vpc-002157042a4908b2c"
+}
+
+variable "aws_subnet_id" {
+  description = "subnet ID for the Jmeter"
+  type = string
+  default = "subnet-028301881608dd0b1"
+}

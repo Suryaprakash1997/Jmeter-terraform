@@ -1,8 +1,16 @@
 
-resource "aws_security_group" "jmeter_security_group" {
-  name        = "JMeter security group"
+resource "aws_security_group" "cs_stage_shared_jmeter_sg" {
+  name        = "cs-stage-shared-jmeter-SG"
   description = "Allow communication between instances"
-  vpc_id      = module.vpc.vpc_id
+  vpc_id      = var.aws_vpc_id
+
+tags = {
+    CreatedBy   = "Surya"
+    Environment = "staging"
+    RequestedBy = "Harshil"
+    Purpose     = "Jmeter loadtest"
+  }
+
 }
 
 resource "aws_security_group_rule" "jmeter_all_ingress" {
@@ -11,7 +19,7 @@ resource "aws_security_group_rule" "jmeter_all_ingress" {
   to_port           = 0
   protocol          = "-1"
   self              = true # allow traffic from the VPC to the security group
-  security_group_id = aws_security_group.jmeter_security_group.id
+  security_group_id = aws_security_group.cs_stage_shared_jmeter_sg.id
 }
 resource "aws_security_group_rule" "jmeter_ssh_ingress" {
   type              = "ingress"
@@ -19,7 +27,7 @@ resource "aws_security_group_rule" "jmeter_ssh_ingress" {
   to_port           = 22
   protocol          = "tcp"
   cidr_blocks       = ["0.0.0.0/0"]
-  security_group_id = aws_security_group.jmeter_security_group.id
+  security_group_id = aws_security_group.cs_stage_shared_jmeter_sg.id
 }
 
 resource "aws_security_group_rule" "private_egress" {
@@ -29,7 +37,7 @@ resource "aws_security_group_rule" "private_egress" {
   protocol  = -1
   self      = true
 
-  security_group_id = aws_security_group.jmeter_security_group.id
+  security_group_id = aws_security_group.cs_stage_shared_jmeter_sg.id
 }
 
 resource "aws_security_group_rule" "public-egress" {
@@ -39,5 +47,5 @@ resource "aws_security_group_rule" "public-egress" {
   protocol    = -1
   cidr_blocks = ["0.0.0.0/0"]
 
-  security_group_id = aws_security_group.jmeter_security_group.id
+  security_group_id = aws_security_group.cs_stage_shared_jmeter_sg.id
 }
